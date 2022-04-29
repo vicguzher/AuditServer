@@ -1,0 +1,68 @@
+.gradle
+# Ignore Gradle build output directory
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Ignora la carpeta de compilados
+bin
+
+# Ignorar el fichero de propiedades de gradle, porque tienen datos personales
+gradle.properties
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+#excluyo el gradle wrapper de esta regla, sÃ­ quiero controlarlo
+!gradle/wrapper/gradle-wrapper.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+#las pruebas harán generar informes excel, que no quiero subir al repositorio remoto
+*.xls
+/javadoc.xml
+
+### Ficheros que no hay que controlar, para diferentes IDES ###
+#Ignoro los directorios que crea el IDE en el espacio de trabajo, que no se suba a git
+### STS ###
+.gitattributes
+.metadata
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
