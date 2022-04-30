@@ -21,11 +21,15 @@ Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente coma
 ./gradlew bootRun
 ```
 
-Prueba que el servicio expone un endpoint de metricas en /metrics y que devuelve
-la siguiente respuesta:
+Prueba que el servicio expone un endpoint de metricas en /metrics:
 
 ```shell
 curl http://localhost:8080/metrics
+```
+
+El endpoint debe devolver la siguiente respuesta:
+
+```shell
 TODO: Utilizar Audit4Improve e imprimir las metricas en la respuesta
 ```
 
@@ -36,6 +40,58 @@ Para ejecutar los tests unitarios, ejecuta el siguiente comando:
 ```shell
 ./gradlew test
 ```
+
+### Desplegar el entorno local de desarrollo
+
+Para el entorno local de desarrollo vamos a usar [Kubernetes] en la
+máquina local. Para ello, vamos a necesitar installar previamente
+[Kind] y [kubectl]. Una vez instalado comprueba que podemos ejecutar el binario:
+
+```shell
+kind --version
+```
+
+Para ejecutar el entorno local de desarrollo, ejecuta el siguiente comando:
+
+```shell
+./gradlew localenv
+```
+
+La tarea `localenv` levanta un cluster de Kubernetes y configura de forma
+automática el contexto de Kubernetes para que podamos acceder a la API
+de Kubernetes de manera local usando `kubectl`. Levantar el entorno local
+debe tardar alrededor de 3 minutos.
+
+Finalmente comprobamos que tenemos acceso al cluster de Kubernetes:
+
+```shell
+kubectl get po --all-namespaces
+```
+
+Deberemos obtener uns salida similar a la siguiente:
+
+```shell
+NAMESPACE            NAME                                                 READY   STATUS    RESTARTS   AGE
+kube-system          coredns-558bd4d5db-l8q2g                             1/1     Running   0          83s
+kube-system          coredns-558bd4d5db-rqcbm                             1/1     Running   0          84s
+kube-system          etcd-audit-server-control-plane                      1/1     Running   0          94s
+kube-system          kindnet-glbk7                                        1/1     Running   0          85s
+kube-system          kube-apiserver-audit-server-control-plane            1/1     Running   1          94s
+kube-system          kube-controller-manager-audit-server-control-plane   1/1     Running   0          94s
+kube-system          kube-proxy-db56r                                     1/1     Running   0          85s
+kube-system          kube-scheduler-audit-server-control-plane            1/1     Running   0          94s
+local-path-storage   local-path-provisioner-547f784dff-vz7c2              1/1     Running   0          83s
+```
+
+Cuando hayamos terminado, simplemente borramos el cluster:
+
+```shell
+./gradlew clean
+```
+
+[Kubernetes]: https://kubernetes.io/
+[Kind]: https://kind.sigs.k8s.io/docs/user/quick-start#installation
+[kubectl]: https://kubernetes.io/docs/tasks/tools/#kubectl
 
 ## Comenzar con Spring Boot para el desarrollo de servicios REST
 

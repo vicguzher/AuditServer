@@ -20,3 +20,19 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.register('localenv') {
+	doLast {
+		exec {
+			executable "./scripts/localenv.sh"
+		}
+	}
+}
+
+tasks.register('clean') {
+	doLast {
+		exec {
+			executable "./scripts/clean.sh"
+		}
+	}
+}
