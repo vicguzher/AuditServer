@@ -21,18 +21,34 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-tasks.register('localenv') {
+tasks.register('localenv-up') {
 	doLast {
 		exec {
-			executable "./scripts/localenv.sh"
+			executable "./scripts/localenv/up.sh"
 		}
 	}
 }
 
-tasks.register('clean') {
+tasks.register('localenv-down') {
 	doLast {
 		exec {
-			executable "./scripts/clean.sh"
+			executable "./scripts/localenv/down.sh"
+		}
+	}
+}
+
+tasks.register('localenv-build') {
+	doLast {
+		exec {
+			executable "./scripts/localenv/build.sh"
+		}
+	}
+}
+
+tasks.register('localenv-deploy') {
+	doLast {
+		exec {
+			executable "./scripts/localenv/deploy.sh"
 		}
 	}
 }

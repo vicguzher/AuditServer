@@ -54,7 +54,7 @@ kind --version
 Para ejecutar el entorno local de desarrollo, ejecuta el siguiente comando:
 
 ```shell
-./gradlew localenv
+./gradlew localenv-up
 ```
 
 La tarea `localenv` levanta un cluster de Kubernetes y configura de forma
@@ -86,13 +86,34 @@ local-path-storage   local-path-provisioner-547f784dff-vz7c2              1/1   
 Cuando hayamos terminado, simplemente borramos el cluster:
 
 ```shell
-./gradlew clean
+./gradlew localenv-down
 ```
 
 [Kubernetes]: https://kubernetes.io/
 [Kind]: https://kind.sigs.k8s.io/docs/user/quick-start#installation
 [kubectl]: https://kubernetes.io/docs/tasks/tools/#kubectl
 
+### Despliegue de la aplicación en el entorno local
+
+La aplicación se va a desplegar en Kubernetes usando
+una herramienta de gestión de la configuración muy
+liviana llamada [helm], que además es capaz de
+automatizar el proceso de release y rollback.
+
+Para ello [descarga e instala helm]. Una vez instalado,
+comprueba que podemos ejecutar el binario:
+
+```shell
+helm version
+```
+
+Para desplegar la aplicación, ejecuta el siguiente comando:
+
+```shell
+./gradlew localenv-deploy
+```
+
+[descarga e instala helm]: https://helm.sh/docs/intro/install/
 ## Comenzar con Spring Boot para el desarrollo de servicios REST
 
 Enlaces generados automáticamente al crear el esqueleto del servicio en [start.spring.io](https://start.spring.io/)
