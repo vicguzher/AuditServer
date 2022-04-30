@@ -113,6 +113,36 @@ Para desplegar la aplicación, ejecuta el siguiente comando:
 ./gradlew localenv-deploy
 ```
 
+Al finalizar, aplicación se encuentra en el `default` namespace, y debe
+de haber 1 pod en estado running:
+
+```shell
+➜  ~ kubectl get po
+NAME                            READY   STATUS    RESTARTS   AGE
+audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
+```
+
+Podemos interactuar con la aplicación usando y similar que recibe peticiones
+HTTP haciendo port-forwarding del servicio a nuestra máquina local. De esta
+forma, no necesitamos un Load Balancer real en nuestra infraestructura, ni
+configuración DNS extra:
+
+```shell
+kubectl port-forward svc/audit-server 8000:80
+```
+
+Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
+que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8000
+de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
+peticiones a nuestro servicio:
+
+```shell
+➜  ~ curl http://localhost:8000/healthz
+{"healthy":true}
+➜  ~ curl http://localhost:8000/metrics
+TODO: Utilizar Audit4Improve e imprimir las metricas en la respuesta
+```
+
 [descarga e instala helm]: https://helm.sh/docs/intro/install/
 ## Comenzar con Spring Boot para el desarrollo de servicios REST
 

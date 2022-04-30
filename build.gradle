@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'us.mitfs.samples'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
@@ -38,6 +38,7 @@ tasks.register('localenv-down') {
 }
 
 tasks.register('localenv-build') {
+	dependsOn 'localenv-up'
 	doLast {
 		exec {
 			executable "./scripts/localenv/build.sh"
@@ -46,6 +47,7 @@ tasks.register('localenv-build') {
 }
 
 tasks.register('localenv-deploy') {
+	dependsOn 'localenv-build'
 	doLast {
 		exec {
 			executable "./scripts/localenv/deploy.sh"

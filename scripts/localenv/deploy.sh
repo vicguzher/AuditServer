@@ -3,4 +3,11 @@
 set -e
 
 export VERSION=$(grep "version =" build.gradle | awk '{print $3}' | sed "s/'//g")
-docker build -t audit-server:${VERSION} .
+export IMAGE_LOADED=$(kubectl get node audit-server-control-plane -o yaml | grep -i docker.io/library/audit-server:${VERSION})
+if [ -z "${IMAGE_LOADED}" ]; then
+  echo "Loading image"
+  kind load docker-image audit-server:${VERSION} --name audit-server
+else
+  echo "Image already loaded"
+fi
+helm upgrade --install audit-server ./deploy/charts/audit-server -f ./deploy/local.yaml --set image.tag="${VERSION}" --atomic
