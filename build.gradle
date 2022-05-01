@@ -10,10 +10,14 @@ sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
+	maven {
+		url "https://mvnrepository.com/artifact/com.spotify/github-client"
+	}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'com.spotify', name: 'github-client', version: '0.1.28'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

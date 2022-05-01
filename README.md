@@ -11,7 +11,32 @@ El objetivo de este código es practicar con:
 
 ## Dependencias
 
-Este servidor utiliza la api [Audit4Improve](https://github.com/MIT-FS/Audit4Improve-API), en la que los alumnos han trabajado a lo largo de las prácticas de la asignatura
+Este servidor utiliza la api [Audit4Improve](https://github.com/MIT-FS/Audit4Improve-API), en la que los alumnos han trabajado a lo largo de las prácticas de la asignatura.
+
+Para el entorno local de desarrollo vamos a usar [Kubernetes] en la
+máquina local. Para ello, vamos a necesitar installar previamente
+[Kind] y [kubectl]. Una vez instalado comprueba que podemos ejecutar el binario:
+
+```shell
+kind --version
+```
+
+La aplicación se va a desplegar en Kubernetes usando una herramienta de gestión
+de la configuración muy liviana llamada [helm], que además es capaz de
+automatizar el proceso de release y rollback.
+
+Para ello [descarga e instala helm]. Una vez instalado, comprueba que podemos
+ejecutar el binario:
+
+```shell
+helm version
+```
+
+[Kubernetes]: https://kubernetes.io/
+[Kind]: https://kind.sigs.k8s.io/docs/user/quick-start#installation
+[kubectl]: https://kubernetes.io/docs/tasks/tools/#kubectl
+[helm]: https://helm.sh/
+[descarga e instala helm]: https://helm.sh/docs/intro/install/
 
 ## Desarrollo local
 
@@ -42,14 +67,6 @@ Para ejecutar los tests unitarios, ejecuta el siguiente comando:
 ```
 
 ### Desplegar el entorno local de desarrollo
-
-Para el entorno local de desarrollo vamos a usar [Kubernetes] en la
-máquina local. Para ello, vamos a necesitar installar previamente
-[Kind] y [kubectl]. Una vez instalado comprueba que podemos ejecutar el binario:
-
-```shell
-kind --version
-```
 
 Para ejecutar el entorno local de desarrollo, ejecuta el siguiente comando:
 
@@ -89,23 +106,7 @@ Cuando hayamos terminado, simplemente borramos el cluster:
 ./gradlew localenv-down
 ```
 
-[Kubernetes]: https://kubernetes.io/
-[Kind]: https://kind.sigs.k8s.io/docs/user/quick-start#installation
-[kubectl]: https://kubernetes.io/docs/tasks/tools/#kubectl
-
 ### Despliegue de la aplicación en el entorno local
-
-La aplicación se va a desplegar en Kubernetes usando
-una herramienta de gestión de la configuración muy
-liviana llamada [helm], que además es capaz de
-automatizar el proceso de release y rollback.
-
-Para ello [descarga e instala helm]. Una vez instalado,
-comprueba que podemos ejecutar el binario:
-
-```shell
-helm version
-```
 
 Para desplegar la aplicación, ejecuta el siguiente comando:
 
@@ -143,7 +144,6 @@ peticiones a nuestro servicio:
 TODO: Utilizar Audit4Improve e imprimir las metricas en la respuesta
 ```
 
-[descarga e instala helm]: https://helm.sh/docs/intro/install/
 ## Comenzar con Spring Boot para el desarrollo de servicios REST
 
 Enlaces generados automáticamente al crear el esqueleto del servicio en [start.spring.io](https://start.spring.io/)
