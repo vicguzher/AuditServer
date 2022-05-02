@@ -32,13 +32,24 @@ ejecutar el binario:
 helm version
 ```
 
+Para finalizar, necesitaremos un [Personal Access Token de Github] para poder
+probar el funcionamiento de la aplicación.
+
 [Kubernetes]: https://kubernetes.io/
 [Kind]: https://kind.sigs.k8s.io/docs/user/quick-start#installation
 [kubectl]: https://kubernetes.io/docs/tasks/tools/#kubectl
 [helm]: https://helm.sh/
 [descarga e instala helm]: https://helm.sh/docs/intro/install/
+[Personal Access Token de Github]: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 ## Desarrollo local
+
+Antes de empezar, necesitamos cargar nuestro Personal Access Token en la shell
+donde probemos nuestro código.
+
+```shell
+export GITHUB_TOKEN=<token>
+```
 
 Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente comando:
 

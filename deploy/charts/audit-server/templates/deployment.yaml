@@ -11,8 +11,9 @@ spec:
       {{- include "audit-server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -31,6 +32,13 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          lifecycle: # Secret mount of single files is not supported, exposing application.properties in /app
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - ln -s /config/application.properties /app/application.properties
           ports:
             - name: http
               containerPort: 8080
@@ -41,6 +49,14 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: config
+            mountPath: "/config"
+            readOnly: true
+      volumes:
+      - name: config
+        secret:
+          secretName: {{ include "audit-server.fullname" . }}-config-secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

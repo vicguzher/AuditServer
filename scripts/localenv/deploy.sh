@@ -10,4 +10,9 @@ if [ -z "${IMAGE_LOADED}" ]; then
 else
   echo "Image already loaded"
 fi
-helm upgrade --install audit-server ./deploy/charts/audit-server -f ./deploy/local.yaml --set image.tag="${VERSION}" --atomic
+helm upgrade --install audit-server ./deploy/charts/audit-server \
+  -f ./deploy/local.yaml \
+  --set image.tag="${VERSION}" \
+  --set config.githubToken="${GITHUB_TOKEN}" \
+  --atomic \
+  --timeout 3m0s

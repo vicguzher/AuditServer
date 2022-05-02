@@ -10,6 +10,12 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+config:
+  githubToken: REPLACEME
+  githubApiUrl: https://api.github.com
+  healthzGithubOrg: MIT-FS
+  healthzGithubRepo: AuditServer
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
