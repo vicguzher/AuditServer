@@ -59,13 +59,16 @@ Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente coma
 Prueba que el servicio expone un endpoint de metricas en /metrics:
 
 ```shell
-curl http://localhost:8080/metrics
+curl http://localhost:8080/metrics?name=issues
 ```
 
 El endpoint debe devolver la siguiente respuesta:
 
 ```shell
-TODO: Utilizar Audit4Improve e imprimir las metricas en la respuesta
+StatusCode        : 200
+StatusDescription :
+Content           : {"name":"issues","unit":"issues","description":"Tareas sin finalizar en el
+                    repositorio","type":"java.lang.Integer"}
 ```
 
 ### Ejecutar los tests
