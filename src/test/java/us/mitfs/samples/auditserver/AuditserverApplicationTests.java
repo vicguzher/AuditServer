@@ -65,7 +65,7 @@ class UnsuccessfulHealthzTest {
 	private TestRestTemplate restTemplate;
 
 	@Test
-	public void getUnsuccessfulHealthz() throws Exception {
+	public void healthz() throws Exception {
 		String endpoint = "http://localhost:" + port + "/healthz";
 		Map<String, Object> endpointResponse = this.restTemplate.getForObject(endpoint, Map.class);
 		assertThat(endpointResponse).containsKeys("healthy", "error");

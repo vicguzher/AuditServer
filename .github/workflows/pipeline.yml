@@ -9,8 +9,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
-      - run: ./gradlew build --no-daemon
+      - run: ./gradlew build -x test --no-daemon
   Test:
     runs-on: ubuntu-latest
     needs: [Build]
@@ -20,8 +19,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
-      - run: ./gradlew test --no-daemon
+      - name: Tests
+        run: |
+          cp application.properties.sample application.properties
+          sed -i "s/REPLACEME/${{ secrets.APP_GITHUB_TOKEN }}/g" application.properties
+          ./gradlew test --no-daemon
   Deploy:
     runs-on: ubuntu-latest
     needs: [Test]
@@ -34,7 +36,7 @@ jobs:
       - name: Build java app
         run: |
           echo "APP_VERSION=$(grep "version =" build.gradle | awk '{print $3}' | sed "s/'//g")" >> $GITHUB_ENV
-          ./gradlew build --no-daemon
+          ./gradlew build -x test --no-daemon
       - name: Build docker image
         uses: docker/build-push-action@v2
         with:
