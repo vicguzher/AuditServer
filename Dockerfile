@@ -1,4 +1,4 @@
-FROM openjdk:17-alpine
+FROM openjdk:16-alpine
 ARG VERSION
 COPY ./build/libs/auditserver-${VERSION}.jar /app/main.jar
 WORKDIR /app

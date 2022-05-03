@@ -1,16 +1,13 @@
 HELP.md
+gradle.properties
 application.properties
 .gradle
-gradle.properties
 # Ignore Gradle build output directory
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 # Ignora la carpeta de compilados
 bin
-
-# Ignorar el fichero de propiedades de gradle, porque tienen datos personales
-gradle.properties
 
 # Compiled class file
 *.class

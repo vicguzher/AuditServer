@@ -1,7 +1,7 @@
 /**
  * 
  */
-package us.mitfs.samples.server;
+package us.mitfs.samples.auditserver;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

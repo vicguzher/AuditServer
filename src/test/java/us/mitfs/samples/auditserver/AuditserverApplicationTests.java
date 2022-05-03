@@ -15,7 +15,7 @@ import java.util.Map;
 class AuditserverApplicationTests {
 
 	@Autowired
-	private AppController controller;
+	private HealthController controller;
 
 	@Test
 	void contextLoads() {
@@ -28,7 +28,7 @@ class AuditserverApplicationTests {
 class SmokeTest {
 
 	@Autowired
-	private AppController controller;
+	private HealthController controller;
 
 	@Test
 	void contextLoads() {
