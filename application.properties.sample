@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-
-=======
 app.githubToken=REPLACEME
 app.githubApiUrl=https://api.github.com
 app.healthzGithubOrg=MIT-FS
 app.healthzGithubRepo=AuditServer
->>>>>>> refs/heads/feat/scaffold-spring-boot-app

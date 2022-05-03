@@ -1,11 +1,11 @@
+HELP.md
+application.properties
 .gradle
 gradle.properties
 # Ignore Gradle build output directory
 build/
-!gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
 # Ignora la carpeta de compilados
 bin
 
@@ -20,7 +20,7 @@ gradle.properties
 
 # Package Files #
 *.jar
-#excluyo el gradle wrapper de esta regla, sÃ­ quiero controlarlo
+#excluyo el gradle wrapper de esta regla
 !gradle/wrapper/gradle-wrapper.jar
 *.war
 *.nar

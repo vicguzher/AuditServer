@@ -12,6 +12,9 @@ sourceCompatibility = '16'
 repositories {
 	mavenCentral()
 	maven {
+		url "https://mvnrepository.com/artifact/com.spotify/github-client"
+	}
+	maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/MIT-FS/Audit4Improve-API")
             credentials {
@@ -26,10 +29,47 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'us.mitfs.samples:a4i:0.0'
+    implementation group: 'com.spotify', name: 'github-client', version: '0.1.28'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'	
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+
+}
+
+tasks.register('localenv-up') {
+	doLast {
+		exec {
+			executable "./scripts/localenv/up.sh"
+		}
+	}
+}
+
+tasks.register('localenv-down') {
+	doLast {
+		exec {
+			executable "./scripts/localenv/down.sh"
+		}
+	}
+}
+
+tasks.register('localenv-build') {
+	dependsOn 'localenv-up'
+	doLast {
+		exec {
+			executable "./scripts/localenv/build.sh"
+		}
+	}
+}
+
+tasks.register('localenv-deploy') {
+	dependsOn 'localenv-build'
+	doLast {
+		exec {
+			executable "./scripts/localenv/deploy.sh"
+		}
+	}
+
 }
