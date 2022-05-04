@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'us.mitfs.samples:a4i:0.0'
+    implementation 'us.mitfs.samples:a4i:0.0.1'
     implementation group: 'com.spotify', name: 'github-client', version: '0.1.28'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'	

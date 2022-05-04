@@ -1,27 +1,27 @@
 # AuditServer
 
-Servidor de métricas, apoyado en la librería Audit4Improve
+Servidor de mÃ©tricas, apoyado en la librerÃ­a Audit4Improve
 ## Objetivo
 
-El objetivo de este código es practicar con:
-- La gestión de dependencias
-- La integración continua
+El objetivo de este cÃ³digo es practicar con:
+- La gestiÃ³n de dependencias
+- La integraciÃ³n continua
 - El despliegue continuo
 
 ## Dependencias
 
-Este servidor utiliza la api [Audit4Improve](https://github.com/MIT-FS/Audit4Improve-API), en la que los alumnos han trabajado a lo largo de las prácticas de la asignatura.
+Este servidor utiliza la api [Audit4Improve](https://github.com/MIT-FS/Audit4Improve-API), en la que los alumnos han trabajado a lo largo de las prÃ¡cticas de la asignatura.
 
 Para el entorno local de desarrollo vamos a usar [Kubernetes] en la
-máquina local. Para ello, vamos a necesitar installar previamente
+mÃ¡quina local. Para ello, vamos a necesitar installar previamente
 [Kind] y [kubectl]. Una vez instalado comprueba que podemos ejecutar el binario:
 
 ```shell
 kind --version
 ```
 
-La aplicación se va a desplegar en Kubernetes usando una herramienta de gestión
-de la configuración muy liviana llamada [helm], que además es capaz de
+La aplicaciÃ³n se va a desplegar en Kubernetes usando una herramienta de gestiÃ³n
+de la configuraciÃ³n muy liviana llamada [helm], que ademÃ¡s es capaz de
 automatizar el proceso de release y rollback.
 
 Para ello [descarga e instala helm]. Una vez instalado, comprueba que podemos
@@ -32,7 +32,7 @@ helm version
 ```
 
 Para finalizar, necesitaremos un [Personal Access Token de Github] para poder
-probar el funcionamiento de la aplicación.
+probar el funcionamiento de la aplicaciÃ³n.
 
 [Kubernetes]: https://kubernetes.io/
 [Kind]: https://kind.sigs.k8s.io/docs/user/quick-start#installation
@@ -44,31 +44,34 @@ probar el funcionamiento de la aplicación.
 ## Desarrollo local
 
 Antes de empezar, necesitamos cargar nuestro Personal Access Token en la shell
-donde probemos nuestro código.
+donde probemos nuestro cÃ³digo.
 
 ```shell
 export GITHUB_TOKEN=<token>
 ```
 
-Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente comando:
+Para ejecutar el servidor web de en la mÃ¡quina local, ejecuta el siguiente comando:
 
 ```shell
 ./gradlew bootRun
 ```
 
-Prueba que el servicio expone un endpoint de metricas en /metrics:
+Prueba que el servicio expone un endpoint de metricas en /metricsInfo:
 
 ```shell
-curl http://localhost:8080/metrics?name=issues
+curl http://localhost:8080/metricsInfo/issues
 ```
 
 El endpoint debe devolver la siguiente respuesta:
 
 ```shell
+
 StatusCode        : 200
 StatusDescription :
-Content           : {"name":"issues","unit":"issues","description":"Tareas sin finalizar en el
-                    repositorio","type":"java.lang.Integer"}
+Content           : {"name":"issues","unit":"issues","description":"Tareas sin finalizar en el repositorio","type":"java.lang.Integer"}
+RawContent        : HTTP/1.1 200
+                    Transfer-Encoding: chunked
+...
 ```
 
 ### Ejecutar los tests
@@ -88,7 +91,7 @@ Para ejecutar el entorno local de desarrollo, ejecuta el siguiente comando:
 ```
 
 La tarea `localenv` levanta un cluster de Kubernetes y configura de forma
-automática el contexto de Kubernetes para que podamos acceder a la API
+automÃ¡tica el contexto de Kubernetes para que podamos acceder a la API
 de Kubernetes de manera local usando `kubectl`. Levantar el entorno local
 debe tardar alrededor de 3 minutos.
 
@@ -131,15 +134,15 @@ Al finalizar, aplicación se encuentra en el `default` namespace, y debe
 de haber 1 pod en estado running:
 
 ```shell
-➜  ~ kubectl get po
+âžœ  ~ kubectl get po
 NAME                            READY   STATUS    RESTARTS   AGE
 audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
 ```
 
-Podemos interactuar con la aplicación usando y similar que recibe peticiones
-HTTP haciendo port-forwarding del servicio a nuestra máquina local. De esta
+Podemos interactuar con la aplicaciÃ³n usando y similar que recibe peticiones
+HTTP haciendo port-forwarding del servicio a nuestra mÃ¡quina local. De esta
 forma, no necesitamos un Load Balancer real en nuestra infraestructura, ni
-configuración DNS extra:
+configuraciÃ³n DNS extra:
 
 ```shell
 kubectl port-forward svc/audit-server 8000:80
@@ -147,21 +150,21 @@ kubectl port-forward svc/audit-server 8000:80
 
 Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
 que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8000
-de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
+de nuestra mÃ¡quina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
-➜  ~ curl http://localhost:8000/healthz
+âžœ  ~ curl http://localhost:8000/healthz
 {"healthy":true}
-➜  ~ curl http://localhost:8000/metrics
-TODO: Utilizar Audit4Improve e imprimir las metricas en la respuesta
+âžœ  ~ curl http://localhost:8000/metricsInfo/forks
+{"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
 ```
 
 ## Comenzar con Spring Boot para el desarrollo de servicios REST
 
-Enlaces generados automáticamente al crear el esqueleto del servicio en [start.spring.io](https://start.spring.io/)
+Enlaces generados automÃ¡ticamente al crear el esqueleto del servicio en [start.spring.io](https://start.spring.io/)
 
-### Documentación de referencia
+### DocumentaciÃ³n de referencia
 
 For further reference, please consider the following sections:
 
@@ -170,7 +173,7 @@ For further reference, please consider the following sections:
 * [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/#build-image)
 * [Spring Web](https://docs.spring.io/spring-boot/docs/2.6.7/reference/htmlsingle/#boot-features-developing-web-applications)
 
-### Guías
+### GuÃ­as
 
 The following guides illustrate how to use some features concretely:
 
@@ -182,5 +185,5 @@ The following guides illustrate how to use some features concretely:
 
 These additional references should also help you:
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+* [Gradle Build Scans â€“ insights for your project's build](https://scans.gradle.com#gradle)
 
