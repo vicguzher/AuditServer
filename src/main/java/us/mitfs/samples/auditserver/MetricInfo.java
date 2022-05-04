@@ -1,6 +1,3 @@
-/**
- * 
- */
 package us.mitfs.samples.auditserver;
 
 import java.io.FileNotFoundException;
@@ -9,17 +6,13 @@ import java.util.HashMap;
 
 import us.muit.fs.a4i.config.Context;
 
-/**
- * @author Isabel Román
- *
- */
 public class MetricInfo {
 
 	private final String name;
 	private String unit=null;
 	private String description=null;
 	private String type=null;
-	
+
 
 	public MetricInfo(String name) {
 		this.name = name;
@@ -31,7 +24,7 @@ public class MetricInfo {
 				description=info.get("description");
 				type=info.get("type");
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +32,7 @@ public class MetricInfo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		}
 
 	public String getName() {
@@ -58,6 +51,6 @@ public class MetricInfo {
 		return type;
 	}
 
-	
-	
+
+
 }

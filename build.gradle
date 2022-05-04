@@ -10,16 +10,16 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '16'
 
 repositories {
-	mavenCentral()	
+	mavenCentral()
 	maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/MIT-FS/Audit4Improve-API")
             credentials {
-            //las propiedades gpr.user y gpr.key están configuradas en gradle.properties en el raiz del proyecto, y se añade a .gitignore para que no se suban
+            //las propiedades gpr.user y gpr.key estï¿½n configuradas en gradle.properties en el raiz del proyecto, y se aï¿½ade a .gitignore para que no se suban
             //O bien configuro las variables de entorno GITHUB_LOGIN y GITHUB_PACKAGES
                 username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_LOGIN")
                 password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_PACKAGES")
-               
+
                 }
         }
     maven {
@@ -29,10 +29,8 @@ repositories {
 
 dependencies {
     implementation 'us.mitfs.samples:a4i:0.0.1'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'com.spotify', name: 'github-client', version: '0.1.28'
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'	
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {

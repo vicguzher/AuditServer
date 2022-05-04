@@ -1,6 +1,3 @@
-/**
- * 
- */
 package us.mitfs.samples.auditserver;
 
 
@@ -16,26 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import us.muit.fs.a4i.config.Context;
 
-/**
- * @author Isabel Román
- *
- */
 @RestController
-public class MetricController {		
+public class MetricController {
 		@GetMapping("/metricsInfo")
 		public HashMap<String,MetricInfo> allMetrics() throws FileNotFoundException, IOException {
 			HashMap<String,MetricInfo> metrics=new HashMap<String,MetricInfo>();
-			
+
 			List<String> metricsNames=Context.getContext().getChecker().listAllMetrics();
 			for(String name:metricsNames) {
 				metrics.put(name,new MetricInfo(name));
 			}
 			return metrics;
-		
+
 	}
-		@GetMapping("/metricsInfo/{name}")	
+		@GetMapping("/metricsInfo/{name}")
 		public MetricInfo metric(@PathVariable String name) {
 			return new MetricInfo(name);
-		
+
 	}
 }

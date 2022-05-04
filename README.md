@@ -1,27 +1,27 @@
 # AuditServer
 
-Servidor de mÃ©tricas, apoyado en la librerÃ­a Audit4Improve
+Servidor de métricas, apoyado en la librería Audit4Improve
 ## Objetivo
 
-El objetivo de este cÃ³digo es practicar con:
-- La gestiÃ³n de dependencias
-- La integraciÃ³n continua
+El objetivo de este código es practicar con:
+- La gestión de dependencias
+- La integración continua
 - El despliegue continuo
 
 ## Dependencias
 
-Este servidor utiliza la api [Audit4Improve](https://github.com/MIT-FS/Audit4Improve-API), en la que los alumnos han trabajado a lo largo de las prÃ¡cticas de la asignatura.
+Este servidor utiliza la api [Audit4Improve](https://github.com/MIT-FS/Audit4Improve-API), en la que los alumnos han trabajado a lo largo de las prácticas de la asignatura.
 
 Para el entorno local de desarrollo vamos a usar [Kubernetes] en la
-mÃ¡quina local. Para ello, vamos a necesitar installar previamente
+máquina local. Para ello, vamos a necesitar installar previamente
 [Kind] y [kubectl]. Una vez instalado comprueba que podemos ejecutar el binario:
 
 ```shell
 kind --version
 ```
 
-La aplicaciÃ³n se va a desplegar en Kubernetes usando una herramienta de gestiÃ³n
-de la configuraciÃ³n muy liviana llamada [helm], que ademÃ¡s es capaz de
+La aplicación se va a desplegar en Kubernetes usando una herramienta de gestión
+de la configuración muy liviana llamada [helm], que además es capaz de
 automatizar el proceso de release y rollback.
 
 Para ello [descarga e instala helm]. Una vez instalado, comprueba que podemos
@@ -32,7 +32,7 @@ helm version
 ```
 
 Para finalizar, necesitaremos un [Personal Access Token de Github] para poder
-probar el funcionamiento de la aplicaciÃ³n.
+probar el funcionamiento de la aplicación.
 
 [Kubernetes]: https://kubernetes.io/
 [Kind]: https://kind.sigs.k8s.io/docs/user/quick-start#installation
@@ -44,13 +44,13 @@ probar el funcionamiento de la aplicaciÃ³n.
 ## Desarrollo local
 
 Antes de empezar, necesitamos cargar nuestro Personal Access Token en la shell
-donde probemos nuestro cÃ³digo.
+donde probemos nuestro código.
 
 ```shell
 export GITHUB_TOKEN=<token>
 ```
 
-Para ejecutar el servidor web de en la mÃ¡quina local, ejecuta el siguiente comando:
+Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente comando:
 
 ```shell
 ./gradlew bootRun
@@ -139,10 +139,10 @@ NAME                            READY   STATUS    RESTARTS   AGE
 audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
 ```
 
-Podemos interactuar con la aplicaciÃ³n usando y similar que recibe peticiones
-HTTP haciendo port-forwarding del servicio a nuestra mÃ¡quina local. De esta
+Podemos interactuar con la aplicación y simular que recibe peticiones
+HTTP haciendo port-forwarding del servicio a nuestra máquina local. De esta
 forma, no necesitamos un Load Balancer real en nuestra infraestructura, ni
-configuraciÃ³n DNS extra:
+configuración DNS extra:
 
 ```shell
 kubectl port-forward svc/audit-server 8000:80
@@ -150,7 +150,7 @@ kubectl port-forward svc/audit-server 8000:80
 
 Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
 que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8000
-de nuestra mÃ¡quina local. Y ahora podemos abrir otro terminal y lanzarle
+de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
@@ -162,9 +162,9 @@ peticiones a nuestro servicio:
 
 ## Comenzar con Spring Boot para el desarrollo de servicios REST
 
-Enlaces generados automÃ¡ticamente al crear el esqueleto del servicio en [start.spring.io](https://start.spring.io/)
+Enlaces generados automáticamente al crear el esqueleto del servicio en [start.spring.io](https://start.spring.io/)
 
-### DocumentaciÃ³n de referencia
+### Documentación de referencia
 
 For further reference, please consider the following sections:
 
@@ -173,7 +173,7 @@ For further reference, please consider the following sections:
 * [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/#build-image)
 * [Spring Web](https://docs.spring.io/spring-boot/docs/2.6.7/reference/htmlsingle/#boot-features-developing-web-applications)
 
-### GuÃ­as
+### Guías
 
 The following guides illustrate how to use some features concretely:
 
