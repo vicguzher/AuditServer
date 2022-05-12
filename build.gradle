@@ -3,10 +3,13 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'war'
+	id "com.palantir.docker" version "0.33.0"
+	id "com.palantir.docker-run" version "0.33.0"
+	//información de los plugin docker https://github.com/palantir/gradle-docker
 }
 
 group = 'us.mitfs.samples'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '16'
 
 repositories {
@@ -33,6 +36,18 @@ dependencies {
     implementation group: 'com.spotify', name: 'github-client', version: '0.1.28'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'	
+}
+docker {
+    copySpec.from("build/libs").into("build/libs")
+    name 'auditserver'
+    buildArgs([VERSION:version])
+}
+dockerRun {
+    name 'auditServerContainer'
+    image 'auditserver'
+    ports '8080:8080'
+    daemonize true
+    env 'GITHUB_LOGIN': project.findProperty("gpr.user") ?: System.getenv("GITHUB_LOGIN"), 'GITHUB_OAUTH': project.findProperty("gpr.key") ?: System.getenv("GITHUB_OAUTH")
 }
 
 tasks.named('test') {
