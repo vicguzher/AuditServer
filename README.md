@@ -57,16 +57,21 @@ Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente coma
 ./gradlew bootRun
 ```
 
-Prueba que el servicio expone un endpoint de metricas en /metrics:
+Prueba que el servicio expone un endpoint de metricas en /metricsInfo:
 
 ```shell
-curl http://localhost:8080/metrics
+curl http://localhost:8080/metricsInfo?name=issues
 ```
 
 El endpoint debe devolver la siguiente respuesta:
 
 ```shell
-TODO: Utilizar Audit4Improve e imprimir las metricas en la respuesta
+StatusCode        : 200
+StatusDescription :
+Content           : {"name":"issues","unit":"issues","description":"Tareas sin finalizar en el repositorio","type":"java.lang.Integer"}
+RawContent        : HTTP/1.1 200
+                    Transfer-Encoding: chunked
+...
 ```
 
 ### Ejecutar los tests
@@ -151,8 +156,8 @@ peticiones a nuestro servicio:
 ```shell
 ➜  ~ curl http://localhost:8000/healthz
 {"healthy":true}
-➜  ~ curl http://localhost:8000/metrics
-TODO: Utilizar Audit4Improve e imprimir las metricas en la respuesta
+➜  ~ curl http://localhost:8000/metricsInfo/forks
+{"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
 ```
 
 ## Comenzar con Spring Boot para el desarrollo de servicios REST

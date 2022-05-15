@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import us.mitfs.samples.auditserver.controllers.HealthController;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
@@ -15,7 +17,7 @@ import java.util.Map;
 class AuditserverApplicationTests {
 
 	@Autowired
-	private AppController controller;
+	private HealthController controller;
 
 	@Test
 	void contextLoads() {
@@ -28,7 +30,7 @@ class AuditserverApplicationTests {
 class SmokeTest {
 
 	@Autowired
-	private AppController controller;
+	private HealthController controller;
 
 	@Test
 	void contextLoads() {
