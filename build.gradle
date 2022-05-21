@@ -69,3 +69,36 @@ tasks.register('localenv-deploy') {
 		}
 	}
 }
+
+tasks.register('localenv-win-up') {
+    doLast {
+		exec {
+			commandLine  "powershell", "./scripts/localenv/win-up.ps1"
+		}
+	}
+}
+
+tasks.register('localenv-win-down') {
+	doLast {
+		exec {
+			commandLine  "powershell", "./scripts/localenv/win-down.ps1"
+		}
+	}
+}
+
+tasks.register('localenv-win-build') {
+	dependsOn 'localenv-win-up'
+	doLast {
+		exec {
+			commandLine  "powershell", "./scripts/localenv/win-build.ps1"
+		}
+	}
+}
+
+tasks.register('localenv-win-deploy') {
+	doLast {
+		exec {
+			commandLine  "powershell", "./scripts/localenv/win-deploy.ps1"
+		}
+	}
+}

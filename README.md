@@ -42,7 +42,7 @@ probar el funcionamiento de la aplicación.
 [descarga e instala helm]: https://helm.sh/docs/intro/install/
 [Personal Access Token de Github]: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-## Desarrollo local
+## Desarrollo local en Linux/Mac
 
 Antes de empezar, necesitamos cargar nuestro Personal Access Token en la shell
 donde probemos nuestro código.
@@ -51,6 +51,9 @@ donde probemos nuestro código.
 export GITHUB_TOKEN=<token>
 ```
 
+Crea el fichero application.properties a partir del application.properties.sample,
+y configura el github token.
+
 Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente comando:
 
 ```shell
@@ -58,7 +61,6 @@ Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente coma
 ```
 
 Prueba que el servicio expone un endpoint de metricas en /metricsInfo:
-
 ```shell
 curl http://localhost:8080/metricsInfo?name=issues
 ```
@@ -128,6 +130,137 @@ Para desplegar la aplicación, ejecuta el siguiente comando:
 
 ```shell
 ./gradlew localenv-deploy
+```
+
+Al finalizar, aplicación se encuentra en el `default` namespace, y debe
+de haber 1 pod en estado running:
+
+```shell
+➜  ~ kubectl get po
+NAME                            READY   STATUS    RESTARTS   AGE
+audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
+```
+
+Podemos interactuar con la aplicación usando y similar que recibe peticiones
+HTTP haciendo port-forwarding del servicio a nuestra máquina local. De esta
+forma, no necesitamos un Load Balancer real en nuestra infraestructura, ni
+configuración DNS extra:
+
+```shell
+kubectl port-forward svc/audit-server 8000:80
+```
+
+Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
+que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8000
+de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
+peticiones a nuestro servicio:
+
+```shell
+➜  ~ curl http://localhost:8000/healthz
+{"healthy":true}
+➜  ~ curl http://localhost:8000/metricsInfo/forks
+{"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
+```
+
+## Desarrollo local en Windows
+
+Antes de empezar, necesitamos cargar nuestro Personal Access Token en el terminal
+de powershell en modo administrador:
+
+```powershell
+[System.Environment]::SetEnvironmentVariable('GITHUB_TOKEN','TOKEN')
+```
+
+Y habilitar la ejecucion de scripts:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+```
+
+Crea el fichero application.properties a partir del application.properties.sample,
+y configura el github token.
+
+Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente comando:
+
+```powershell
+./gradlew.bat bootRun
+```
+
+Prueba que el servicio expone un endpoint de metricas en /metricsInfo. Para ello accede
+a la URL a traves del navegador o utiliza una consola MINGW64:
+```shell
+curl http://localhost:8080/metricsInfo?name=issues
+```
+
+El endpoint debe devolver la siguiente respuesta:
+
+```shell
+StatusCode        : 200
+StatusDescription :
+Content           : {"name":"issues","unit":"issues","description":"Tareas sin finalizar en el repositorio","type":"java.lang.Integer"}
+RawContent        : HTTP/1.1 200
+                    Transfer-Encoding: chunked
+...
+```
+
+### Ejecutar los tests
+
+Para ejecutar los tests unitarios, ejecuta el siguiente comando:
+
+```powershell
+./gradlew.bat test
+```
+
+### Desplegar el entorno local de desarrollo
+
+Para ejecutar el entorno local de desarrollo, ejecuta el siguiente comando:
+
+```shell
+./gradlew.bat localenv-win-up
+```
+
+La tarea `localenv` levanta un cluster de Kubernetes y configura de forma
+automática el contexto de Kubernetes para que podamos acceder a la API
+de Kubernetes de manera local usando `kubectl`. Levantar el entorno local
+debe tardar alrededor de 3 minutos.
+
+Finalmente comprobamos que tenemos acceso al cluster de Kubernetes:
+
+```shell
+kubectl get po --all-namespaces
+```
+
+Deberemos obtener uns salida similar a la siguiente:
+
+```shell
+NAMESPACE            NAME                                                 READY   STATUS    RESTARTS   AGE
+kube-system          coredns-558bd4d5db-l8q2g                             1/1     Running   0          83s
+kube-system          coredns-558bd4d5db-rqcbm                             1/1     Running   0          84s
+kube-system          etcd-audit-server-control-plane                      1/1     Running   0          94s
+kube-system          kindnet-glbk7                                        1/1     Running   0          85s
+kube-system          kube-apiserver-audit-server-control-plane            1/1     Running   1          94s
+kube-system          kube-controller-manager-audit-server-control-plane   1/1     Running   0          94s
+kube-system          kube-proxy-db56r                                     1/1     Running   0          85s
+kube-system          kube-scheduler-audit-server-control-plane            1/1     Running   0          94s
+local-path-storage   local-path-provisioner-547f784dff-vz7c2              1/1     Running   0          83s
+```
+
+Cuando hayamos terminado, simplemente borramos el cluster:
+
+```shell
+./gradlew.bat localenv-win-down
+```
+
+### Despliegue de la aplicación en el entorno local
+
+Construye el artefacto de la aplicacion en una imagen de docker usando:
+```shell
+./gradlew localenv-win-build
+```
+
+Para desplegar la aplicación, ejecuta el siguiente comando:
+
+```shell
+./gradlew localenv-win-deploy
 ```
 
 Al finalizar, aplicación se encuentra en el `default` namespace, y debe
