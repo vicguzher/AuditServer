@@ -49,6 +49,7 @@ donde probemos nuestro código.
 
 ```shell
 export GITHUB_TOKEN=<token>
+export GITHUB_LOGIN=<login>
 ```
 
 Crea el fichero application.properties a partir del application.properties.sample,
@@ -169,6 +170,7 @@ de powershell en modo administrador:
 
 ```powershell
 [System.Environment]::SetEnvironmentVariable('GITHUB_TOKEN','TOKEN')
+[System.Environment]::SetEnvironmentVariable('GITHUB_LOGIN','LOGIN')
 ```
 
 Y habilitar la ejecucion de scripts:
@@ -210,9 +212,9 @@ Para ejecutar los tests unitarios, ejecuta el siguiente comando:
 ./gradlew.bat test
 ```
 
-### Desplegar el entorno local de desarrollo
+### Desplegar la infraestructura en local
 
-Para ejecutar el entorno local de desarrollo, ejecuta el siguiente comando:
+Para desplegar la infraestructura en local ejecuta el siguiente comando:
 
 ```shell
 ./gradlew.bat localenv-win-up
@@ -229,7 +231,7 @@ Finalmente comprobamos que tenemos acceso al cluster de Kubernetes:
 kubectl get po --all-namespaces
 ```
 
-Deberemos obtener uns salida similar a la siguiente:
+Deberemos obtener una salida similar a la siguiente:
 
 ```shell
 NAMESPACE            NAME                                                 READY   STATUS    RESTARTS   AGE
@@ -244,24 +246,16 @@ kube-system          kube-scheduler-audit-server-control-plane            1/1   
 local-path-storage   local-path-provisioner-547f784dff-vz7c2              1/1     Running   0          83s
 ```
 
-Cuando hayamos terminado, simplemente borramos el cluster:
 
-```shell
-./gradlew.bat localenv-win-down
-```
 
-### Despliegue de la aplicación en el entorno local
-
-Construye el artefacto de la aplicacion en una imagen de docker usando:
-```shell
-./gradlew localenv-win-build
-```
+### Despliegue de la aplicación en la infraestructura local
 
 Para desplegar la aplicación, ejecuta el siguiente comando:
 
 ```shell
 ./gradlew localenv-win-deploy
 ```
+Esta tarea tambi�n despliega la infraestructura, por lo que no ser�a necesario hacerlo antes
 
 Al finalizar, aplicación se encuentra en el `default` namespace, y debe
 de haber 1 pod en estado running:
@@ -272,27 +266,32 @@ NAME                            READY   STATUS    RESTARTS   AGE
 audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
 ```
 
-Podemos interactuar con la aplicación usando y similar que recibe peticiones
+Podemos interactuar con la aplicación y simular que recibe peticiones
 HTTP haciendo port-forwarding del servicio a nuestra máquina local. De esta
 forma, no necesitamos un Load Balancer real en nuestra infraestructura, ni
-configuración DNS extra:
+configuración DNS extra.
+Si observa el script de despliegue ver� que este redireccionamiento se ha realizado ya
 
 ```shell
-kubectl port-forward svc/audit-server 8000:80
+kubectl port-forward svc/audit-server 8080:80
 ```
 
 Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
-que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8000
+que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8080
 de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
-➜  ~ curl http://localhost:8000/healthz
+➜  ~ curl http://localhost:8080/healthz
 {"healthy":true}
-➜  ~ curl http://localhost:8000/metricsInfo/forks
+➜  ~ curl http://localhost:8080/metricsInfo/forks
 {"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
 ```
+Cuando hayamos terminado podemos borramos el cluster:
 
+```shell
+./gradlew.bat localenv-win-down
+```
 ## Comenzar con Spring Boot para el desarrollo de servicios REST
 
 Enlaces generados automáticamente al crear el esqueleto del servicio en [start.spring.io](https://start.spring.io/)
