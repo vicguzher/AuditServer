@@ -6,6 +6,7 @@ jobs:
     env:
       GITHUB_LOGIN: ${{ github.actor }}
       GITHUB_PACKAGES: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -19,6 +20,7 @@ jobs:
     env:
       GITHUB_LOGIN: ${{ github.actor }}
       GITHUB_PACKAGES: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -28,7 +30,7 @@ jobs:
       - name: Tests
         run: |
           cp application.properties.sample application.properties
-          sed -i "s/REPLACEME/${{ secrets.APP_GITHUB_TOKEN }}/g" application.properties
+          sed -i "s/REPLACEME/${{ secrets.GITHUB_TOKEN }}/g" application.properties
           ./gradlew test --no-daemon
   Deploy:
     runs-on: ubuntu-latest
@@ -36,12 +38,13 @@ jobs:
     env:
       GITHUB_LOGIN: ${{ github.actor }}
       GITHUB_PACKAGES: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '16'
       - name: Build java app
         run: |
           echo "APP_VERSION=$(grep "version =" build.gradle | awk '{print $3}' | sed "s/'//g")" >> $GITHUB_ENV
@@ -63,7 +66,7 @@ jobs:
           helm upgrade --install audit-server ./deploy/charts/audit-server \
             -f ./deploy/local.yaml \
             --set image.tag="${{ env.APP_VERSION }}" \
-            --set config.githubToken="${{ secrets.APP_GITHUB_TOKEN }}" \
+            --set config.githubToken="${{ secrets.GITHUB_TOKEN }}" \
             --atomic \
             --debug \
             --timeout 5m0s
