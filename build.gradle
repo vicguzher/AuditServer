@@ -3,7 +3,8 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id "com.palantir.docker" version "0.33.0"
-	//id 'distribution'
+	id "com.palantir.docker-run" version "0.33.0"
+	//información de los plugin docker https://github.com/palantir/gradle-docker
 }
 
 group = 'us.mitfs.samples'
@@ -41,6 +42,13 @@ docker {
     copySpec.from("build/libs").into("build/libs")
     name "audit-server:$version"
     buildArgs([VERSION:version])
+}
+dockerRun {
+    name 'auditServerContainer'
+    image 'audit-server:0.0.1-SNAPSHOT'
+    ports '8080:8080'
+    daemonize true
+    env 'GITHUB_LOGIN': project.findProperty("gpr.user") ?: System.getenv("GITHUB_LOGIN"), 'GITHUB_OAUTH': project.findProperty("gpr.key") ?: System.getenv("GITHUB_OAUTH")
 }
 tasks.register('localenv-up') {
 	doLast {
