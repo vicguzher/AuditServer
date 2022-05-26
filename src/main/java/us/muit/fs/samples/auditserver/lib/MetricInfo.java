@@ -1,4 +1,4 @@
-package us.mitfs.samples.auditserver.lib;
+package us.muit.fs.samples.auditserver.lib;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

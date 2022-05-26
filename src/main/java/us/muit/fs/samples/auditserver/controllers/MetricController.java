@@ -1,4 +1,4 @@
-package us.mitfs.samples.auditserver.controllers;
+package us.muit.fs.samples.auditserver.controllers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import us.mitfs.samples.auditserver.lib.MetricInfo;
 import us.muit.fs.a4i.config.Context;
+import us.muit.fs.samples.auditserver.lib.MetricInfo;
 
 @RestController
 public class MetricController {

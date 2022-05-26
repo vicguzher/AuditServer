@@ -11,10 +11,7 @@ image:
   tag: ""
 
 config:
-  githubToken: REPLACEME
-  githubApiUrl: https://api.github.com
-  healthzGithubOrg: MIT-FS
-  healthzGithubRepo: AuditServer
+  healthzGithubRepo: MIT-FS/AuditServer
 
 imagePullSecrets: []
 nameOverride: ""

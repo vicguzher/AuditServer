@@ -1,4 +1,4 @@
-package us.mitfs.samples.auditserver.config;
+package us.muit.fs.samples.auditserver.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

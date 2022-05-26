@@ -49,6 +49,7 @@ donde probemos nuestro código.
 
 ```shell
 export GITHUB_TOKEN=<token>
+export GITHUB_PACKAGES=<token>
 export GITHUB_LOGIN=<login>
 ```
 
@@ -85,9 +86,9 @@ Para ejecutar los tests unitarios, ejecuta el siguiente comando:
 ./gradlew test
 ```
 
-### Desplegar el entorno local de desarrollo
+### Desplegar la infraestructura en local
 
-Para ejecutar el entorno local de desarrollo, ejecuta el siguiente comando:
+Para levantar la infraestructura localmente, ejecuta el siguiente comando:
 
 ```shell
 ./gradlew localenv-up
@@ -125,7 +126,7 @@ Cuando hayamos terminado, simplemente borramos el cluster:
 ./gradlew localenv-down
 ```
 
-### Despliegue de la aplicación en el entorno local
+### Despliegue de la aplicación en el cluster local
 
 Para desplegar la aplicación, ejecuta el siguiente comando:
 
@@ -137,7 +138,7 @@ Al finalizar, aplicación se encuentra en el `default` namespace, y debe
 de haber 1 pod en estado running:
 
 ```shell
-➜  ~ kubectl get po
+âžœ  ~ kubectl get po
 NAME                            READY   STATUS    RESTARTS   AGE
 audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
 ```
@@ -153,13 +154,13 @@ kubectl port-forward svc/audit-server 8000:80
 
 Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
 que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8000
-de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
+de nuestra mÃ¡quina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
-➜  ~ curl http://localhost:8000/healthz
+âžœ  ~ curl http://localhost:8000/livez
 {"healthy":true}
-➜  ~ curl http://localhost:8000/metricsInfo/forks
+âžœ  ~ curl http://localhost:8000/metricsInfo/forks
 {"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
 ```
 
@@ -169,8 +170,13 @@ Antes de empezar, necesitamos cargar nuestro Personal Access Token en el termina
 de powershell en modo administrador:
 
 ```powershell
-[System.Environment]::SetEnvironmentVariable('GITHUB_TOKEN','TOKEN')
+[System.Environment]::SetEnvironmentVariable('GITHUB_OAUTH','TOKEN')
 [System.Environment]::SetEnvironmentVariable('GITHUB_LOGIN','LOGIN')
+[System.Environment]::SetEnvironmentVariable('GITHUB_PACKAGES','TOKEN')
+O bien
+$env:GITHUB_OAUTH='TOKEN'
+$env:GITHUB_LOGIN='LOGIN'
+$env:GITHUB_PACKAGES='TOKEN'
 ```
 
 Y habilitar la ejecucion de scripts:
@@ -181,7 +187,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 Crea el fichero application.properties a partir del application.properties.sample,
 y configura el github token.
 
-Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente comando:
+Para ejecutar el servidor web de en la mÃ¡quina local, ejecuta el siguiente comando:
 
 ```powershell
 ./gradlew.bat bootRun
@@ -221,7 +227,7 @@ Para desplegar la infraestructura en local ejecuta el siguiente comando:
 ```
 
 La tarea `localenv` levanta un cluster de Kubernetes y configura de forma
-automática el contexto de Kubernetes para que podamos acceder a la API
+automÃ¡tica el contexto de Kubernetes para que podamos acceder a la API
 de Kubernetes de manera local usando `kubectl`. Levantar el entorno local
 debe tardar alrededor de 3 minutos.
 
@@ -255,13 +261,13 @@ Para desplegar la aplicación, ejecuta el siguiente comando:
 ```shell
 ./gradlew localenv-win-deploy
 ```
-Esta tarea tambi�n despliega la infraestructura, por lo que no ser�a necesario hacerlo antes
+Esta tarea también despliega la infraestructura, por lo que no sería necesario hacerlo antes
 
 Al finalizar, aplicación se encuentra en el `default` namespace, y debe
 de haber 1 pod en estado running:
 
 ```shell
-➜  ~ kubectl get po
+âžœ  ~ kubectl get po
 NAME                            READY   STATUS    RESTARTS   AGE
 audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
 ```
@@ -270,7 +276,7 @@ Podemos interactuar con la aplicación y simular que recibe peticiones
 HTTP haciendo port-forwarding del servicio a nuestra máquina local. De esta
 forma, no necesitamos un Load Balancer real en nuestra infraestructura, ni
 configuración DNS extra.
-Si observa el script de despliegue ver� que este redireccionamiento se ha realizado ya
+Si observa el script de despliegue verá que este redireccionamiento se ha realizado ya
 
 ```shell
 kubectl port-forward svc/audit-server 8080:80
@@ -282,9 +288,9 @@ de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
-➜  ~ curl http://localhost:8080/healthz
+âžœ  ~ curl http://localhost:8080/livez
 {"healthy":true}
-➜  ~ curl http://localhost:8080/metricsInfo/forks
+âžœ  ~ curl http://localhost:8080/metricsInfo/forks
 {"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
 ```
 Cuando hayamos terminado podemos borramos el cluster:
@@ -305,7 +311,7 @@ For further reference, please consider the following sections:
 * [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/#build-image)
 * [Spring Web](https://docs.spring.io/spring-boot/docs/2.6.7/reference/htmlsingle/#boot-features-developing-web-applications)
 
-### Guías
+### GuÃ­as
 
 The following guides illustrate how to use some features concretely:
 
@@ -317,4 +323,4 @@ The following guides illustrate how to use some features concretely:
 
 These additional references should also help you:
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+* [Gradle Build Scans â€“ insights for your project's build](https://scans.gradle.com#gradle)

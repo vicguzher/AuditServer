@@ -7,13 +7,15 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import us.mitfs.samples.auditserver.controllers.HealthController;
+import us.muit.fs.samples.auditserver.controllers.HealthController;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Map;
 
-@SpringBootTest
+
+@SpringBootTest(classes = us.muit.fs.samples.auditserver.AuditserverApplication.class)
 class AuditserverApplicationTests {
 
 	@Autowired
@@ -21,12 +23,12 @@ class AuditserverApplicationTests {
 
 	@Test
 	void contextLoads() {
-		assertThat(controller).isNotNull();
+		assertNotNull(controller,"El controlador no se ha cargado");
 	}
 
 }
 
-@SpringBootTest
+@SpringBootTest(classes = us.muit.fs.samples.auditserver.AuditserverApplication.class)
 class SmokeTest {
 
 	@Autowired
@@ -39,25 +41,25 @@ class SmokeTest {
 
 }
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = us.muit.fs.samples.auditserver.AuditserverApplication.class,webEnvironment = WebEnvironment.RANDOM_PORT)
 class SuccessfulHealthzTest {
 
 	@LocalServerPort
 	private int port;
-
 	@Autowired
 	private TestRestTemplate restTemplate;
 
+
 	@Test
 	public void healthz() throws Exception {
-		String endpoint = "http://localhost:" + port + "/healthz";
+		String endpoint = "http://localhost:" + port + "/livez";
 		Map<String, Object> endpointResponse = this.restTemplate.getForObject(endpoint, Map.class);
-		assertThat(endpointResponse).containsKeys("healthy", "check");
+		assertThat(endpointResponse).containsKeys("healthy", "totalAdditions", "metric");
 		assertThat(endpointResponse.get("healthy")).isEqualTo(true);
 	}
 }
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = { "app.githubToken=faketoken" })
+@SpringBootTest(classes = us.muit.fs.samples.auditserver.AuditserverApplication.class,webEnvironment = WebEnvironment.RANDOM_PORT, properties = { "app.healthzGithubRepo=fakerepo" })
 class UnsuccessfulHealthzTest {
 
 	@LocalServerPort
@@ -68,7 +70,7 @@ class UnsuccessfulHealthzTest {
 
 	@Test
 	public void healthz() throws Exception {
-		String endpoint = "http://localhost:" + port + "/healthz";
+		String endpoint = "http://localhost:" + port + "/livez";
 		Map<String, Object> endpointResponse = this.restTemplate.getForObject(endpoint, Map.class);
 		assertThat(endpointResponse).containsKeys("healthy", "error");
 		assertThat(endpointResponse.get("healthy")).isEqualTo(false);
