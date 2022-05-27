@@ -12,6 +12,8 @@ image:
 
 config:
   healthzGithubRepo: MIT-FS/AuditServer
+  #githubOauth: 
+  #githubLogin:
 
 imagePullSecrets: []
 nameOverride: ""

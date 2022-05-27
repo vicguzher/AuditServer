@@ -52,11 +52,14 @@ spec:
           volumeMounts:
           - name: config
             mountPath: "/config"
-            readOnly: true
+            readOnly: true      
+          envFrom:
+          - secretRef:
+              name: {{ include "audit-server.fullname" . }}-config-env
       volumes:
       - name: config
         secret:
-          secretName: {{ include "audit-server.fullname" . }}-config-secret
+          secretName: {{ include "audit-server.fullname" . }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
