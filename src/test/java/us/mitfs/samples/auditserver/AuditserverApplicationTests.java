@@ -52,7 +52,7 @@ class SuccessfulHealthzTest {
 
 	@Test
 	public void healthz() throws Exception {
-		String endpoint = "http://localhost:" + port + "/livez";
+		String endpoint = "http://localhost:" + port + "/readyz";
 		Map<String, Object> endpointResponse = this.restTemplate.getForObject(endpoint, Map.class);
 		assertThat(endpointResponse).containsKeys("healthy", "totalAdditions", "metric");
 		assertThat(endpointResponse.get("healthy")).isEqualTo(true);
@@ -70,7 +70,7 @@ class UnsuccessfulHealthzTest {
 
 	@Test
 	public void healthz() throws Exception {
-		String endpoint = "http://localhost:" + port + "/livez";
+		String endpoint = "http://localhost:" + port + "/readyz";
 		Map<String, Object> endpointResponse = this.restTemplate.getForObject(endpoint, Map.class);
 		assertThat(endpointResponse).containsKeys("healthy", "error");
 		assertThat(endpointResponse.get("healthy")).isEqualTo(false);

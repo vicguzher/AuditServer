@@ -38,8 +38,8 @@ public class HealthController {
 	discovery.
 	Consultar https://kubernetes.io/docs/reference/using-api/health-checks/
 */
-@RequestMapping("/livez")
-@GetMapping(path = "/livez", produces=MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping("/readyz")
+@GetMapping(path = "/readyz", produces=MediaType.APPLICATION_JSON_VALUE)
 ResponseEntity<Map<String, Object>> healthz() {
 	/*
 		En esta seccion se evaluan las dependencias del servicio

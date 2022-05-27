@@ -8,7 +8,7 @@ Write-Output "Lee versión de build.gradle"
 $version_line = (Select-String -Path "build.gradle" -Pattern 'version =').ToString()
 $version = $version_line.split(' ')[-1].replace("'", "")
 Write-Output $version
-Write-Output "Lee variable de entorno GITHUB_TOKEN"
+Write-Output "Lee variable de entorno GITHUB_OAUTH"
 $github_token = [System.Environment]::GetEnvironmentVariable('GITHUB_OAUTH')
 Write-Output "Ejecuta kind load docker-image para desplegar la aplicación en el cluster kubernetes"
 kind load docker-image audit-server:$version --name audit-server

@@ -13,6 +13,6 @@ fi
 helm upgrade --install audit-server ./deploy/charts/audit-server \
   -f ./deploy/local.yaml \
   --set image.tag="${VERSION}" \
-  --set config.githubToken="${GITHUB_TOKEN}" \
+  --set config.githubToken="${GITHUB_OAUTH}" \
   --atomic \
   --timeout 3m0s
