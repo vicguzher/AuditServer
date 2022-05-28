@@ -7,7 +7,7 @@ El objetivo de este código es practicar con:
 
 * La gestión de dependencias
 * La integración continua
-* El despliegue continuo
+* El lanzamiento continuo
 
 ## Dependencias
 
@@ -48,9 +48,9 @@ probar el funcionamiento de la aplicación.
 [docker-desktop]: https://docs.docker.com/desktop/windows/install/
 [Personal Access Token de Github]: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-## Desarrollo local en Linux/Mac
+## Entorno de desarrollo en Linux/Mac
 
-Antes de empezar, necesitamos cargar nuestro Personal Access Token en la shell
+Puede comenzar probando el servicio instándolo directamente en el entorno local. Antes de empezar, necesitamos cargar nuestro Personal Access Token en la shell
 donde probemos nuestro código.
 
 ```shell
@@ -70,7 +70,7 @@ Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente coma
 
 Prueba que el servicio expone un endpoint de metricas en /metricsInfo:
 ```shell
-curl http://localhost:8080/metricsInfo?name=issues
+curl http://localhost:8080/metricsInfo/issues
 ```
 
 El endpoint debe devolver la siguiente respuesta:
@@ -83,6 +83,7 @@ RawContent        : HTTP/1.1 200
                     Transfer-Encoding: chunked
 ...
 ```
+Compruebe también el valor devuelto si solicta el recurso readyz
 
 ### Ejecutar los tests
 
@@ -92,9 +93,9 @@ Para ejecutar los tests unitarios, ejecuta el siguiente comando:
 ./gradlew test
 ```
 
-### Desplegar la infraestructura en local
+### Desplegar la infraestructura kubernetes en local
 
-Para levantar la infraestructura localmente, ejecuta el siguiente comando:
+Para levantar la infraestructura kubernetes localmente, ejecuta el siguiente comando:
 
 ```shell
 ./gradlew localenv-up
@@ -111,7 +112,7 @@ Finalmente comprobamos que tenemos acceso al cluster de Kubernetes:
 kubectl get po --all-namespaces
 ```
 
-Deberemos obtener uns salida similar a la siguiente:
+Deberemos obtener una salida similar a la siguiente:
 
 ```shell
 NAMESPACE            NAME                                                 READY   STATUS    RESTARTS   AGE
@@ -132,7 +133,7 @@ Cuando hayamos terminado, simplemente borramos el cluster:
 ./gradlew localenv-down
 ```
 
-### Despliegue de la aplicación en el cluster local
+### Despliegue de la aplicación en el cluster kubernetes local
 
 Para desplegar la aplicación, ejecuta el siguiente comando:
 
@@ -172,7 +173,7 @@ peticiones a nuestro servicio:
 
 ## Desarrollo local en Windows
 
-Antes de empezar, necesitamos cargar nuestro Personal Access Token en el terminal
+Podemos comenzar probando la aplicación directamente en el entorno local. Antes de empezar, necesitamos cargar nuestro Personal Access Token en el terminal
 de powershell en modo administrador:
 
 ```powershell
@@ -199,13 +200,13 @@ Para ejecutar el servidor web de en la mÃ¡quina local, ejecuta el siguiente co
 ./gradlew.bat bootRun
 ```
 
-Prueba que el servicio expone un endpoint de metricas en /metricsInfo. Para ello accede
+Prueba que el servicio expone un endpoint que devuelve información sobre las métricas manejadas en /metricsInfo. Para ello accede
 a la URL a traves del navegador o utiliza una consola MINGW64:
 ```shell
-curl http://localhost:8080/metricsInfo?name=issues
+curl -v http://localhost:8080/metricsInfo/issues
 ```
 
-El endpoint debe devolver la siguiente respuesta:
+El endpoint debe devolver algo similar a la siguiente respuesta:
 
 ```shell
 StatusCode        : 200
@@ -214,6 +215,16 @@ Content           : {"name":"issues","unit":"issues","description":"Tareas sin f
 RawContent        : HTTP/1.1 200
                     Transfer-Encoding: chunked
 ...
+```
+Compruebe también el valor devuelto si solicita el recurso readyz, algo similar a
+```shell
+âžœ  ~ curl -v http://localhost:8080/readyz
+StatusCode        : 200
+StatusDescription :
+Content           : {"totalAdditions":738,"metric":{"name":"totalAdditions","value":738,"date":"2022-05-28T18:41:26.880+00:00","description":"Suma el total de adiciones desde que el repositorio se creó","source":"GitHub, calculada","unit":"additions"},"healthy":true}
+RawContent        :  HTTP/1.1 200
+                     Transfer-Encoding: chunked
+
 ```
 
 ### Ejecutar los tests
@@ -224,7 +235,7 @@ Para ejecutar los tests unitarios, ejecuta el siguiente comando:
 ./gradlew.bat test
 ```
 
-### Desplegar la infraestructura en local
+### Desplegar la infraestructura kubernetes en local
 
 Para desplegar la infraestructura en local ejecuta el siguiente comando:
 
@@ -233,7 +244,7 @@ Para desplegar la infraestructura en local ejecuta el siguiente comando:
 ```
 
 La tarea `localenv` levanta un cluster de Kubernetes y configura de forma
-automÃ¡tica el contexto de Kubernetes para que podamos acceder a la API
+automática el contexto de Kubernetes para que podamos acceder a la API
 de Kubernetes de manera local usando `kubectl`. Levantar el entorno local
 debe tardar alrededor de 3 minutos.
 
@@ -294,8 +305,8 @@ de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
-âžœ  ~ curl http://localhost:8080/livez
-{"healthy":true}
+âžœ  ~ curl http://localhost:8080/readyz
+{"totalAdditions":738,"metric":{"name":"totalAdditions","value":738,"date":"2022-05-28T18:36:02.053+00:00","description":"Suma el total de adiciones desde que el repositorio se creó","source":"GitHub, calculada","unit":"additions"},"healthy":true}
 âžœ  ~ curl http://localhost:8080/metricsInfo/forks
 {"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
 ```
