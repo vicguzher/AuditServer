@@ -50,7 +50,7 @@ probar el funcionamiento de la aplicación.
 
 ## Entorno de desarrollo en Linux/Mac
 
-Puede comenzar probando el servicio instándolo directamente en el entorno local. Antes de empezar, necesitamos cargar nuestro Personal Access Token en la shell
+Puede comenzar probando el servicio instalándolo directamente en el entorno local. Antes de empezar, necesitamos cargar nuestro Personal Access Token en la shell
 donde probemos nuestro código.
 
 ```shell
@@ -150,7 +150,7 @@ NAME                            READY   STATUS    RESTARTS   AGE
 audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
 ```
 
-Podemos interactuar con la aplicación usando y similar que recibe peticiones
+Podemos interactuar con la aplicación y simular que recibe peticiones
 HTTP haciendo port-forwarding del servicio a nuestra máquina local. De esta
 forma, no necesitamos un Load Balancer real en nuestra infraestructura, ni
 configuración DNS extra:
@@ -161,7 +161,7 @@ kubectl port-forward svc/audit-server 8000:80
 
 Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
 que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8000
-de nuestra mÃ¡quina local. Y ahora podemos abrir otro terminal y lanzarle
+de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
@@ -321,14 +321,14 @@ Enlaces generados automáticamente al crear el esqueleto del servicio en [start.
 
 ### Documentación de referencia
 
-For further reference, please consider the following sections:
+Considere las siguientes referencias para más información:
 
 * [Official Gradle documentation](https://docs.gradle.org)
 * [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/)
 * [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/#build-image)
 * [Spring Web](https://docs.spring.io/spring-boot/docs/2.6.7/reference/htmlsingle/#boot-features-developing-web-applications)
 
-### GuÃ­as
+### Guías
 
 The following guides illustrate how to use some features concretely:
 
