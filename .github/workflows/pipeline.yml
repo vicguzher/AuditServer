@@ -1,5 +1,7 @@
 name: AuditServer CI/CD pipeline
-on: [push]
+on: 
+ workflow_dispatch:
+ push:
 jobs:
   Build:
     runs-on: ubuntu-latest
