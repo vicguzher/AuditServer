@@ -1,4 +1,4 @@
-name: Acciones creación de imagenes docker y ejecución
+name: Acciones creaciÃ³n de imagenes docker y ejecuciÃ³n
 on: [push]
 jobs:
   Build:
@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '16'
+          java-version: '17'
       - run: |
          chmod +x gradlew        
          ./gradlew build -x test --no-daemon
