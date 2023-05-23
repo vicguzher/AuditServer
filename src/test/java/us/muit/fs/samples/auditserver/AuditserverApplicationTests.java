@@ -1,11 +1,15 @@
-package us.mitfs.samples.auditserver;
+package us.muit.fs.samples.auditserver;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import us.muit.fs.samples.auditserver.controllers.HealthController;
 
@@ -25,7 +29,7 @@ class AuditserverApplicationTests {
 	void contextLoads() {
 		assertNotNull(controller,"El controlador no se ha cargado");
 	}
-
+	
 }
 
 @SpringBootTest(classes = us.muit.fs.samples.auditserver.AuditserverApplication.class)
@@ -40,7 +44,6 @@ class SmokeTest {
 	}
 
 }
-
 @SpringBootTest(classes = us.muit.fs.samples.auditserver.AuditserverApplication.class,webEnvironment = WebEnvironment.RANDOM_PORT)
 class SuccessfulHealthzTest {
 
@@ -48,12 +51,18 @@ class SuccessfulHealthzTest {
 	private int port;
 	@Autowired
 	private TestRestTemplate restTemplate;
+	 
+	private Logger log = Logger.getLogger(SuccessfulHealthzTest.class.getName());
+
 
 
 	@Test
 	public void healthz() throws Exception {
+		assertNotNull(port,"port no tiene valor");		
+		log.info("El puerto al que me dirijo es "+port);
 		String endpoint = "http://localhost:" + port + "/readyz";
 		Map<String, Object> endpointResponse = this.restTemplate.getForObject(endpoint, Map.class);
+		log.info("Esta es la respuesta "+endpointResponse);
 		assertThat(endpointResponse).containsKeys("healthy", "totalAdditions", "metric");
 		assertThat(endpointResponse.get("healthy")).isEqualTo(true);
 	}

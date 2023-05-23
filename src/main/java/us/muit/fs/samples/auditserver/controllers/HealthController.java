@@ -4,6 +4,7 @@ package us.muit.fs.samples.auditserver.controllers;
 import java.util.HashMap;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController {
 	@Autowired
 	private AppProperties config;
-
+	private static Logger log = Logger.getLogger(HealthController.class.getName());
 	
 	private String getHealthzGithubRepo()
 	{
@@ -51,17 +52,21 @@ ResponseEntity<Map<String, Object>> healthz() {
 		String healthzGithubRepo = this.getHealthzGithubRepo();
 		Map<String, Object> body = new HashMap<>();
 		RemoteEnquirer remote = new GitHubRepositoryEnquirer();
+		
 		Metric myMetric = remote.getMetric("totalAdditions",healthzGithubRepo);
-	
+	    
 		if(((Integer)myMetric.getValue()!=0) && (myMetric.getName()=="totalAdditions")){
 			body.put("healthy", true);
 			body.put("totalAdditions", myMetric.getValue());
 			body.put("metric", myMetric);
+			log.fine("La respuesta recibida ha sido: "+myMetric);
+		}else {
+			log.fine("La respuesta del remoto no se ha recibido bien");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(body);
 	}	catch(Exception ref) {
 		Map<String, Object> body = new HashMap<>();
-
+        log.fine("Se ha recibido esta excepción: "+ref);
 		body.put("healthy", false);
 		body.put("error", ref.getMessage());
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
