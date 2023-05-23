@@ -62,9 +62,9 @@ Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente coma
 ./gradlew bootRun
 ```
 
-Prueba que el servicio expone un endpoint de metricas en /metricsInfo:
+Prueba que el servicio expone un endpoint de metricas en /metricsInfo y localiza la métrica "issues":
 ```shell
-curl http://localhost:8080/metricsInfo?name=issues
+curl http://localhost:8080/metricsInfo/issues
 ```
 
 El endpoint debe devolver la siguiente respuesta:
@@ -196,7 +196,7 @@ Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente coma
 Prueba que el servicio expone un endpoint de métricas en /metricsInfo. Para ello accede
 a la URL a traves del navegador o utiliza una consola MINGW64:
 ```shell
-curl http://localhost:8080/metricsInfo?name=issues
+curl http://localhost:8080/metricsInfo/issues
 ```
 
 El endpoint debe devolver la siguiente respuesta:
@@ -282,7 +282,7 @@ Si observa el script de despliegue verá que este redireccionamiento se ha reali
 kubectl port-forward svc/audit-server 8080:80
 ```
 
-Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
+Esto abre un túnel al cluster de Kubernetes y expone el puerto 80 del servicio,
 que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8080
 de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
@@ -304,7 +304,7 @@ Enlaces generados automáticamente al crear el esqueleto del servicio en [start.
 
 ### Documentación de referencia
 
-For further reference, please consider the following sections:
+Las principales referencias para el ejemplo son:
 
 * [Official Gradle documentation](https://docs.gradle.org)
 * [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/)
