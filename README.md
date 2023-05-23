@@ -138,7 +138,7 @@ Al finalizar, aplicación se encuentra en el `default` namespace, y debe
 de haber 1 pod en estado running:
 
 ```shell
-âžœ  ~ kubectl get po
+>  kubectl get po
 NAME                            READY   STATUS    RESTARTS   AGE
 audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
 ```
@@ -154,13 +154,13 @@ kubectl port-forward svc/audit-server 8000:80
 
 Esto abre un tunel al cluster de Kubernetes y expone el puerto 80 del servicio,
 que mapea al puerto 8080 del container que se ejecuta en la pod, al puerto 8000
-de nuestra mÃ¡quina local. Y ahora podemos abrir otro terminal y lanzarle
+de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
-âžœ  ~ curl http://localhost:8000/livez
+curl http://localhost:8000/livez
 {"healthy":true}
-âžœ  ~ curl http://localhost:8000/metricsInfo/forks
+curl http://localhost:8000/metricsInfo/forks
 {"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
 ```
 
@@ -187,13 +187,13 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 Crea el fichero application.properties a partir del application.properties.sample,
 y configura el github token.
 
-Para ejecutar el servidor web de en la mÃ¡quina local, ejecuta el siguiente comando:
+Para ejecutar el servidor web de en la máquina local, ejecuta el siguiente comando:
 
 ```powershell
 ./gradlew.bat bootRun
 ```
 
-Prueba que el servicio expone un endpoint de metricas en /metricsInfo. Para ello accede
+Prueba que el servicio expone un endpoint de métricas en /metricsInfo. Para ello accede
 a la URL a traves del navegador o utiliza una consola MINGW64:
 ```shell
 curl http://localhost:8080/metricsInfo?name=issues
@@ -227,7 +227,7 @@ Para desplegar la infraestructura en local ejecuta el siguiente comando:
 ```
 
 La tarea `localenv` levanta un cluster de Kubernetes y configura de forma
-automÃ¡tica el contexto de Kubernetes para que podamos acceder a la API
+automática el contexto de Kubernetes para que podamos acceder a la API
 de Kubernetes de manera local usando `kubectl`. Levantar el entorno local
 debe tardar alrededor de 3 minutos.
 
@@ -267,7 +267,7 @@ Al finalizar, aplicación se encuentra en el `default` namespace, y debe
 de haber 1 pod en estado running:
 
 ```shell
-âžœ  ~ kubectl get po
+kubectl get po
 NAME                            READY   STATUS    RESTARTS   AGE
 audit-server-7b7f9cbb96-x6kfw   1/1     Running   0          98s
 ```
@@ -288,9 +288,9 @@ de nuestra máquina local. Y ahora podemos abrir otro terminal y lanzarle
 peticiones a nuestro servicio:
 
 ```shell
-âžœ  ~ curl http://localhost:8080/livez
+curl http://localhost:8080/livez
 {"healthy":true}
-âžœ  ~ curl http://localhost:8080/metricsInfo/forks
+curl http://localhost:8080/metricsInfo/forks
 {"name":"forks","unit":"forks","description":"Número de forks, no son los forks de la web","type":"java.lang.Integer"}
 ```
 Cuando hayamos terminado podemos borramos el cluster:
@@ -311,9 +311,9 @@ For further reference, please consider the following sections:
 * [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.7/gradle-plugin/reference/html/#build-image)
 * [Spring Web](https://docs.spring.io/spring-boot/docs/2.6.7/reference/htmlsingle/#boot-features-developing-web-applications)
 
-### GuÃ­as
+### Guí­as
 
-The following guides illustrate how to use some features concretely:
+Estas referencias muestran como usar correctamente algunas de las características del ejemplo:
 
 * [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
@@ -321,6 +321,6 @@ The following guides illustrate how to use some features concretely:
 
 ### Enlaces adicionales
 
-These additional references should also help you:
+Estas referencias adicionales también pueden ayudar a entender mejor el ejemplo:
 
-* [Gradle Build Scans â€“ insights for your project's build](https://scans.gradle.com#gradle)
+* [Gradle Build Scans insights for your project's build](https://scans.gradle.com#gradle)
