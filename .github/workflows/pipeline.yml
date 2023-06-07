@@ -1,5 +1,8 @@
 name: AuditServer CI/CD pipeline
-on: [push]
+on: 
+ push:
+  branches:
+      - preparacionDemo
 jobs:
   Build:
     runs-on: ubuntu-latest
